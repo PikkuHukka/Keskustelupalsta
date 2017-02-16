@@ -9,11 +9,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Opiskelija;
+import tikape.runko.domain.Vastaus;
 
-public class VastausDao implements Dao<Opiskelija, Integer> {
+public class VastausDao implements Dao<Vastaus, Integer> {
 
     private Database database;
 
@@ -22,9 +23,9 @@ public class VastausDao implements Dao<Opiskelija, Integer> {
     }
 
     @Override
-    public Opiskelija findOne(Integer key) throws SQLException {
+    public Vastaus findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija WHERE id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vastaus WHERE id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
@@ -35,36 +36,70 @@ public class VastausDao implements Dao<Opiskelija, Integer> {
 
         Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
+        
+        int vastaus_id = rs.getInt("vastaus_id");
+        int avausviittaus = rs.getInt("avausviittaus");    
+        String sisalto = rs.getString("sisalto");
+        String nimimerkki = rs.getString("nimimerkki");
+        Timestamp aikaleima = rs.getTimestamp("aikaleima");
 
-        Opiskelija o = new Opiskelija(id, nimi);
+        Vastaus v = new Vastaus(0, 0, sisalto, nimimerkki, aikaleima);
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return o;
+        return v;
     }
 
     @Override
-    public List<Opiskelija> findAll() throws SQLException {
+    public List<Vastaus> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vastaus");
 
         ResultSet rs = stmt.executeQuery();
-        List<Opiskelija> opiskelijat = new ArrayList<>();
+        List<Vastaus> vastaukset = new ArrayList<>();
         while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String nimi = rs.getString("nimi");
+            int vastaus_id = rs.getInt("vastaus_id");
+        int avausviittaus = rs.getInt("avausviittaus");    
+        String sisalto = rs.getString("sisalto");
+        String nimimerkki = rs.getString("nimimerkki");
+        Timestamp aikaleima = rs.getTimestamp("aikaleima");       
 
-            opiskelijat.add(new Opiskelija(id, nimi));
+            vastaukset.add(new Vastaus(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima));
         }
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return opiskelijat;
+        return vastaukset;
+    }
+    
+    public List<Vastaus> findAll(int avaus_id) throws SQLException {
+
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement
+        ("SELECT * FROM Vastaus WHERE avausviittaus=" + avaus_id);
+
+        ResultSet rs = stmt.executeQuery();
+        List<Vastaus> vastaukset = new ArrayList<>();
+        while (rs.next()) {
+            int vastaus_id = rs.getInt("vastaus_id");
+        int avausviittaus = rs.getInt("avausviittaus");    
+        String sisalto = rs.getString("sisalto");
+        String nimimerkki = rs.getString("nimimerkki");
+        Timestamp aikaleima = rs.getTimestamp("aikaleima");       
+
+            vastaukset.add(new Vastaus(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima));
+        }
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return vastaukset;
     }
 
     @Override
