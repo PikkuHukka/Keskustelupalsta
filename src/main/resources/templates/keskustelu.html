@@ -7,20 +7,28 @@
     </head>
 
     <body>
-        <h1><span th:text="${alue}">alue</span> --- <span th:text="${avaus}> avaus </span></h1>
+        <h1><span th:text="${alue}">alue</span> --- <span th:text="${avaus}">avaus</span> </h1>
 
         <ol>
             <li th:text="${avaus}">avaus</li> 
             <li th:each="vastaus: ${vastaukset}">
-                <span th:text="${vastaus.otsikko}>vastaus</span>
+                <a th:text="${vastaus.otsikko}" th:href="${'/vastaukset/' + vastaus.vastaus_id}">vastaus</a>
             </li>         
         </ol>
-        <br
+        <br>
+        
+        <p align="left">
+        Viesti
         <form method="POST" action="/vastaus">
-            <textarea name="vastaus" rows="20" cols="70"></textarea>
-            <br>
+        <textarea name="vastaus" rows="20" cols="70"></textarea><br>
+            Nimimerkki           
+            <textarea name="nimimerkki" rows="1" cols="30"></textarea>
+                    
+            <br><br>
             <input type="submit" value="lähetä">
+                
         </form>
+        </p>
 
     </body>
 </html>

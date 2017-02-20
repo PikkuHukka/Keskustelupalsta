@@ -77,29 +77,19 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return vastaukset;
     }
     
-    public List<Vastaus> findAll(int avaus_id) throws SQLException {
+    public void add(Integer vastaus_id, Integer avausviittaus, String sisalto, String nimimerkki, Timestamp aikaleima) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement
-        ("SELECT * FROM Vastaus WHERE avausviittaus=" + avaus_id);
+        ("INSERT INTO Vastaus "
+                + "(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima)"
+                + " VALUES (vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima)");
 
-        ResultSet rs = stmt.executeQuery();
-        List<Vastaus> vastaukset = new ArrayList<>();
-        while (rs.next()) {
-            int vastaus_id = rs.getInt("vastaus_id");
-        int avausviittaus = rs.getInt("avausviittaus");    
-        String sisalto = rs.getString("sisalto");
-        String nimimerkki = rs.getString("nimimerkki");
-        Timestamp aikaleima = rs.getTimestamp("aikaleima");       
-
-            vastaukset.add(new Vastaus(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima));
-        }
-
-        rs.close();
+        
         stmt.close();
         connection.close();
 
-        return vastaukset;
+        
     }
 
     @Override
