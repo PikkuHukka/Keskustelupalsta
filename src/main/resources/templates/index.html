@@ -1,16 +1,64 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Otsikko</title>
+        <title>Keskustelupalsta</title>
         <meta charset="utf-8" />
+        <style>
+            td{text-align: left}
+            th{text-align: center}
+            table{border-spacing: 10px}
+
+            .alue{
+
+                outline: none;
+                margin-top: 2%;
+            }
+            .alue2{
+                margin-left: 20%;
+            }
+            .uusiAlue{
+                margin-top: 3%
+            }
+        </style>
+
     </head>
 
     <body>
-        <h1>Heippa vaan!</h1>
+        <h1>Keskustelupalsta</h1>
+        <table style="width:40%">
+            <tr>
+                <th><i>Alue</i></th>
+                <th><i>Viestejä yhteensä</i></th>
+                <th><i>Viimeisin viesti</i></th>
+            </tr>
+        </table>
 
-        <p>Ja .. <span th:text="${viesti}">jotain?</span></p>
+        <div class="alue" th:each="alue : ${alueet}">
 
-        <p><a href="/opiskelijat">Tästä opiskelijalistaukseen.</a></p>
+
+            <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
+
+
+            <span th:text="${alue.lukumaara}">lukumaara</span>
+            <span th:text="${alue.viimeisin}">viimeisin</span>
+
+
+        </div>
+
+        <div class="uusiAlue">
+            <form method="POST" th:action="@{~/}"> 
+                <div>
+                    <input type="text" name="nimi" placeholder="Alueen nimi" />
+                </div>
+                <div>
+                    <input type="submit" value="Lisää alue"/>
+
+
+                </div>
+            </form>
+        </div>
+
     </body>
 </html>

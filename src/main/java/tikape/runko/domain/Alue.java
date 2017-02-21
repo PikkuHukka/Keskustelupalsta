@@ -5,6 +5,8 @@
  */
 package tikape.runko.domain;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author langjimi
@@ -13,11 +15,15 @@ public class Alue {
     
     private String nimi;
     private int alue_id;
+    private int lukumaara;
+    private String viimeisin;
     
     public Alue(int id, String nimi){
         
         this.nimi = nimi;
         this.alue_id = id;
+        this.lukumaara = 0;
+        this.viimeisin = null;
         
     }
 
@@ -28,6 +34,35 @@ public class Alue {
     public String getNimi() {
         return nimi;
     }
-    
+
+    public int getLukumaara() {
+        return lukumaara;
+    }
+
+    public void setLukumaara(int lukumaara) {
+        this.lukumaara = lukumaara;
+    }
+
+    public String getViimeisin() {
+        return viimeisin;
+    }
+
+    public void setViimeisin(String viimeisin) {
+        
+        if(viimeisin.equals("null")){
+            this.viimeisin = "null";
+            return;
+        }
+        
+        String lyhennetty = "";
+        
+        for (int i = 0; i < 16; i++) {
+            lyhennetty += viimeisin.charAt(i);
+        }
+        
+        this.viimeisin = lyhennetty;
+    }
+
+  
     
 }
