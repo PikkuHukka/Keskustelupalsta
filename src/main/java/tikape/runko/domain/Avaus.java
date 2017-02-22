@@ -5,6 +5,7 @@
  */
 package tikape.runko.domain;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
@@ -18,9 +19,9 @@ public class Avaus {
     private String otsikko;
     private String sisalto;
     private String nimimerkki;
-    private String aikaleima;
+    private Timestamp aikaleima;
 
-    public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) {
+    public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, Timestamp aikaleima) {
         this.avaus_id = avaus_id;
         this.alueviittaus = alueviittaus;
         this.nimimerkki = nimimerkki;
@@ -49,7 +50,7 @@ public class Avaus {
         return this.otsikko;
     }
 
-    public String getAikaleima() {
+    public Timestamp getAikaleima() {
         return this.aikaleima;
     }
     

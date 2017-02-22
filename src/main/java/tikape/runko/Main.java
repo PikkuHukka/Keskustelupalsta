@@ -1,16 +1,21 @@
 package tikape.runko;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AlueDao;
+import tikape.runko.database.AvausDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.VastausDao;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.Avaus;
 
 public class Main {
 
@@ -21,6 +26,7 @@ public class Main {
         OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         VastausDao vastausDao = new VastausDao(database);
         AlueDao alueDao = new AlueDao(database);
+        AvausDao avausDao = new AvausDao(database);
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -40,19 +46,33 @@ public class Main {
         post("/", (req, res) -> {
             String nimi = req.queryParams("nimi");
             Random random = new Random();
-            Alue a = new Alue(Math.abs(nimi.hashCode()+random.nextInt(100)), nimi);
+            Alue a = new Alue(Math.abs(nimi.hashCode() + random.nextInt(100)), nimi);
             alueDao.lisaaAlue(a);
             res.redirect("/");
             return "";
         });
+        //Avaus
+        get("/:alue:id", (req, res) -> {
 
-        get("/keskustelu/:id", (req, res) -> {
             HashMap map = new HashMap<>();
 //          map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("id")))));
 //          map.put("alue", avausDao.findAlue(Integer.parseInt(req.params("id"))))));
-            map.put("vastaus", vastausDao.findAll());
-            return new ModelAndView(map, "opiskelijat");
+            map.put("avaukset", avausDao.findAll());
+            return new ModelAndView(map, "avaus");
+
         }, new ThymeleafTemplateEngine());
+        // public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) 
+        post("/:alue:id", (Request req, Response res) -> {
+
+            String otsikko = req.queryParams("otsikko");
+            String sisalto = req.queryParams("sisalto");
+            String nimimerkki = req.queryParams("nimimerkki");
+            Random random = new Random();
+            Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
+            avausDao.lisaaAvaus(a);
+            res.redirect("/:alue:id");
+            return "";
+        });
 
         get("/opiskelijat/:id", (req, res) -> {
             HashMap map = new HashMap<>();
