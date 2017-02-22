@@ -10,9 +10,11 @@ public class Database {
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
+
     }
 
     public Connection getConnection() throws SQLException {
+
         return DriverManager.getConnection(databaseAddress);
     }
 
@@ -46,4 +48,5 @@ public class Database {
 
         return lista;
     }
+
 }

@@ -131,19 +131,17 @@ public class AlueDao implements Dao<Alue, Integer> {
 
         String sql = "DELETE FROM Alue WHERE alue_id = " + key;
 
-        Connection connection = database.getConnection();
-        connection.setAutoCommit(false);
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-        stmt.close();
-        connection.commit();
-        connection.close();
+        updateDatabase(sql);
     }
 
     public void lisaaAlue(Alue alue) throws SQLException {
 
         String sql = "INSERT INTO Alue(alue_id, nimi) VALUES( " + alue.getAlue_id() + ", '" + alue.getNimi() + "')";
 
+        updateDatabase(sql);
+    }
+
+    public void updateDatabase(String sql) throws SQLException {
         Connection connection = database.getConnection();
         connection.setAutoCommit(false);
         Statement stmt = connection.createStatement();
