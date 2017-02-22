@@ -13,8 +13,8 @@ import java.sql.Timestamp;
  */
 public class Alue {
     
-    private String nimi;
-    private int alue_id;
+    final private String nimi;
+    final private int alue_id;
     private int lukumaara;
     private String viimeisin;
     

@@ -38,12 +38,13 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         String nimi = rs.getString("nimi");
         
         int vastaus_id = rs.getInt("vastaus_id");
-        int avausviittaus = rs.getInt("avausviittaus");    
+        int avausviittaus = rs.getInt("avausviittaus"); 
+        int alueviittaus = rs.getInt("alueviittaus");
         String sisalto = rs.getString("sisalto");
         String nimimerkki = rs.getString("nimimerkki");
         Timestamp aikaleima = rs.getTimestamp("aikaleima");
 
-        Vastaus v = new Vastaus(0, 0, sisalto, nimimerkki, aikaleima);
+        Vastaus v = new Vastaus(vastaus_id, avausviittaus, alueviittaus, sisalto, nimimerkki, aikaleima);
 
         rs.close();
         stmt.close();
@@ -62,12 +63,13 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         List<Vastaus> vastaukset = new ArrayList<>();
         while (rs.next()) {
             int vastaus_id = rs.getInt("vastaus_id");
-        int avausviittaus = rs.getInt("avausviittaus");    
+        int avausviittaus = rs.getInt("avausviittaus"); 
+        int alueviittaus = rs.getInt("alueviittaus");
         String sisalto = rs.getString("sisalto");
         String nimimerkki = rs.getString("nimimerkki");
         Timestamp aikaleima = rs.getTimestamp("aikaleima");       
 
-            vastaukset.add(new Vastaus(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima));
+            vastaukset.add(new Vastaus(vastaus_id, avausviittaus, alueviittaus, sisalto, nimimerkki, aikaleima));
         }
 
         rs.close();
