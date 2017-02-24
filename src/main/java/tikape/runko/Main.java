@@ -73,6 +73,27 @@ public class Main {
             res.redirect("/:alue:id");
             return "";
         });
+        //Vastaus
+        get("/:alue/:id", (req, res) -> {
+
+            HashMap map = new HashMap<>();
+            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("vastaukset", vastausDao.findAlue(Integer.parseInt(req.params("id"))));
+            return new ModelAndView(map, "keskustelu");
+
+        }, new ThymeleafTemplateEngine());
+        // public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) 
+        post("/:alue/:id", (Request req, Response res) -> {
+
+            String otsikko = req.queryParams("otsikko");
+            String sisalto = req.queryParams("sisalto");
+            String nimimerkki = req.queryParams("nimimerkki");
+            Random random = new Random();
+            Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
+            avausDao.lisaaAvaus(a);
+            res.redirect("/:alue:id");
+            return "";
+        });
 
         get("/opiskelijat/:id", (req, res) -> {
             HashMap map = new HashMap<>();
