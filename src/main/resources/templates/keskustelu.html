@@ -10,9 +10,11 @@
         <h1><span th:text="${alue}">alue</span> --- <span th:text="${avaus}">avaus</span> </h1>
 
         <ol>
-            <li th:text="${avaus}">avaus</li> 
+            <li th:text="${avaus.nimimerkki}"><b>avausnimimerkki</b> 
+                <p th:text="${avaus.sisalto}">avaus</p> </li>
             <li th:each="vastaus: ${vastaukset}">
-                <a th:text="${vastaus.otsikko}" th:href="${'/vastaukset/' + vastaus.vastaus_id}">vastaus</a>
+                <b th:text="${vastaus.nimimerkki}"}">nimimerkki</b>
+                <p th:text="${vastaus.otsikko}"}">vastaus</p>
             </li>         
         </ol>
         <br>
