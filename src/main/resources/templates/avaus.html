@@ -41,7 +41,7 @@
             <a th:href="@{~/{id}(id=${alue.alue_id}/{avaus_id}(avaus_id=${avaus.avaus_id})}"><span th:text="${avaus.otsikko}">otsikko</span></a>
 
 
-      <span th:text="${avaus.aikaleima}">viimeisin</span>
+            <span th:text="${avaus.aikaleima}">viimeisin</span>
 
 
         </div>
@@ -51,13 +51,21 @@
                 <div>
                     <input type="text" name="otsikko" placeholder="Avauksen otsikko" />
                 </div>
+                
                 <div>
-                    <input type="submit" value="Lisää avaus"/>
-
-                    
+                    <input style="height:200px; width: 200px;" type="text" name="sisalto" placeholder="Avauksen sisalto" />
+            </div>
+                
+                 <div>
+                    <input type="text" name="nimimerkki" placeholder="Nimimerkki" />
                 </div>
-            </form>
-        </div>
+            <div>
+                <input type="submit" value="Lisää avaus"/>
 
-    </body>
+
+            </div>
+        </form>
+    </div>
+
+</body>
 </html>
