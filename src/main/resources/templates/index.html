@@ -10,16 +10,33 @@
             th{text-align: center}
             table{border-spacing: 10px}
 
-            .alue{
-
-                outline: none;
+            .flex-container {
+                display: -webkit-flex;
+                display: flex;  
+                -webkit-flex-flow: row wrap;
+                flex-flow: row wrap;
                 margin-top: 2%;
             }
-            .alue2{
-                margin-left: 20%;
+            .post{
+                margin-top: 3%;
+
             }
-            .uusiAlue{
-                margin-top: 3%
+            .nav1{
+                width: 14%;
+       
+                text-align: left;
+                margin-top: 4%;
+            }
+            .nav2{
+                width: 13%;
+           
+                text-align: left;
+                margin-top: 4%;
+            }
+            .nav3{
+            
+                text-align: left;
+                margin-top: 4%;
             }
         </style>
 
@@ -27,6 +44,7 @@
 
     <body>
         <h1>Keskustelupalsta</h1>
+
         <table style="width:40%">
             <tr>
                 <th><i>Alue</i></th>
@@ -35,19 +53,27 @@
             </tr>
         </table>
 
-        <div class="alue" th:each="alue : ${alueet}">
+        <div class="flex-container" th:each="alue : ${alueet}">
 
+            
+            <nav class="nav1">
 
-            <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
+                <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
 
+            </nav>
 
-            <span th:text="${alue.lukumaara}">lukumaara</span>
-            <span th:text="${alue.viimeisin}">viimeisin</span>
+            <nav class="nav2">
+                <span th:text="${alue.lukumaara}">lukumaara</span>
+            </nav>
 
-
+            <nav class="nav3">
+                <span th:text="${alue.viimeisin}">viimeisin</span>
+            </nav>
+            
         </div>
 
-        <div class="uusiAlue">
+
+        <div class="post">
             <form method="POST" th:action="@{~/}"> 
                 <div>
                     <input type="text" name="nimi" placeholder="Alueen nimi" />
