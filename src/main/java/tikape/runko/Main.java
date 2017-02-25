@@ -56,6 +56,8 @@ public class Main {
             return "";
         });
         //Avaus
+        
+        //req.pathinfo() kertoo polun
         get("/:alue:id", (req, res) -> {
 
             HashMap map = new HashMap<>();
