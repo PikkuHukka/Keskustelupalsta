@@ -27,6 +27,7 @@ public class Main {
         VastausDao vastausDao = new VastausDao(database);
         AlueDao alueDao = new AlueDao(database);
         AvausDao avausDao = new AvausDao(database);
+        Random random = new Random();
 
         get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -45,9 +46,12 @@ public class Main {
 
         post("/", (req, res) -> {
             String nimi = req.queryParams("nimi");
-            Random random = new Random();
             Alue a = new Alue(Math.abs(nimi.hashCode() + random.nextInt(100)), nimi);
-            alueDao.lisaaAlue(a);
+            
+            if (!a.getNimi().equals("")) {
+                alueDao.lisaaAlue(a);
+            }
+            
             res.redirect("/");
             return "";
         });
@@ -67,7 +71,6 @@ public class Main {
             String otsikko = req.queryParams("otsikko");
             String sisalto = req.queryParams("sisalto");
             String nimimerkki = req.queryParams("nimimerkki");
-            Random random = new Random();
             Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
             avausDao.lisaaAvaus(a);
             res.redirect("/:alue:id");

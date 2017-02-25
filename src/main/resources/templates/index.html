@@ -9,7 +9,6 @@
             td{text-align: left}
             th{text-align: center}
             table{border-spacing: 10px}
-
             .flex-container {
                 display: -webkit-flex;
                 display: flex;  
@@ -19,60 +18,36 @@
             }
             .post{
                 margin-top: 3%;
-
             }
             .nav1{
-                width: 14%;
-       
-                text-align: left;
-                margin-top: 4%;
-            }
-            .nav2{
-                width: 13%;
-           
-                text-align: left;
-                margin-top: 4%;
-            }
-            .nav3{
-            
+                width: 16%;
                 text-align: left;
                 margin-top: 4%;
             }
         </style>
-
     </head>
-
     <body>
         <h1>Keskustelupalsta</h1>
-
-        <table style="width:40%">
-            <tr>
-                <th><i>Alue</i></th>
-                <th><i>Viestejä yhteensä</i></th>
-                <th><i>Viimeisin viesti</i></th>
-            </tr>
-        </table>
-
-        <div class="flex-container" th:each="alue : ${alueet}">
-
-            
+        <div class="flex-container" >
             <nav class="nav1">
-
-                <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
-
+                <span><i><b>Alue</b></i></span>
+                <div class="nav1" th:each="alue : ${alueet}">
+                    <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
+                </div>
             </nav>
-
-            <nav class="nav2">
-                <span th:text="${alue.lukumaara}">lukumaara</span>
+            <nav class="nav1">
+                <span><i><b>Viestejä yhteensä</b></i></span>
+                <div class="nav1" th:each="alue : ${alueet}">
+                    <span th:text="${alue.lukumaara}">lukumaara</span>
+                </div>
             </nav>
-
-            <nav class="nav3">
-                <span th:text="${alue.viimeisin}">viimeisin</span>
+            <nav class="nav1">
+                <span><i><b>Viimeisin viesti</b></i></span>
+                <div class="nav1" th:each="alue : ${alueet}">
+                    <span th:text="${alue.viimeisin}">viimeisin</span>
+                </div>
             </nav>
-            
         </div>
-
-
         <div class="post">
             <form method="POST" th:action="@{~/}"> 
                 <div>
@@ -80,11 +55,8 @@
                 </div>
                 <div>
                     <input type="submit" value="Lisää alue"/>
-
-
                 </div>
             </form>
         </div>
-
     </body>
 </html>
