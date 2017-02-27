@@ -79,12 +79,12 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return vastaukset;
     }
     
-    public List<Vastaus> findAlue(int alue_id) throws SQLException {
+    public List<Vastaus> findAvaus(int avaus_id) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement
-        ("SELECT * FROM Vastaus WHERE alueviittaus = ?");
-        stmt.setObject(1, alue_id);
+        ("SELECT * FROM Vastaus WHERE avausviittaus = ?");
+        stmt.setObject(1, avaus_id);
         ResultSet rs = stmt.executeQuery();
         List<Vastaus> vastaukset = new ArrayList<>();
         while (rs.next()) {

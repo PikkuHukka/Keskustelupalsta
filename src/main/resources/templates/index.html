@@ -32,7 +32,7 @@
             <nav class="nav1">
                 <span><i><b>Alue</b></i></span>
                 <div class="nav1" th:each="alue : ${alueet}">
-                    <a th:href="@{~/{id}(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
+                    <a th:href="@{~/{id}/(id=${alue.alue_id})}"><span th:text="${alue.nimi}">nimi</span></a>
                 </div>
             </nav>
             <nav class="nav1">

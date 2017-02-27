@@ -90,6 +90,32 @@ public class AvausDao implements Dao<Avaus, Integer> {
 
         return avaukset;
     }
+    
+    public List<Avaus> findAlue(int alue_id) throws SQLException {
+
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = ? ORDER BY otsikko");
+        stmt.setObject(1, alue_id);
+        ResultSet rs = stmt.executeQuery();
+        List<Avaus> avaukset = new ArrayList<>();
+        while (rs.next()) {
+
+            Integer avaus_id = rs.getInt("avaus_id");
+            Integer alueviittaus = rs.getInt("alueviittaus");
+            String otsikko = rs.getString("otsikko");
+            String sisalto = rs.getString("sisalto");
+            String nimimerkki = rs.getString("nimimerkki");
+            Timestamp aikaleima = rs.getTimestamp("aikaleima");
+
+            avaukset.add(new Avaus(avaus_id, alueviittaus, otsikko, sisalto, nimimerkki, aikaleima));
+        }
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return avaukset;
+    }
 
     public void lisaaAvaus(Avaus avaus) throws SQLException {
 

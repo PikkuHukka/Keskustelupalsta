@@ -26,7 +26,7 @@
     </head>
 
     <body>
-        <h1>Keskustelupalsta</h1>
+        <h1 th:text="${alue.nimi}">Aihe</h1>
         <table style="width:40%">
             <tr>
                 <th><i>Alue</i></th>
@@ -38,7 +38,7 @@
         <div class="alue" th:each="avaus : ${avaukset}">
 
 
-            <a th:href="@{~/{id}(id=${alue.alue_id}/{avaus_id}(avaus_id=${avaus.avaus_id})}"><span th:text="${avaus.otsikko}">otsikko</span></a>
+            <a th:href="@{~/{alue_id}/{avaus_id}/(avaus_id=${avaus.avaus_id}, alue_id=${alue.alue_id})}"><span th:text="${avaus.otsikko}">otsikko</span></a>
 
 
             <span th:text="${avaus.aikaleima}">viimeisin</span>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="uusiAlue">
-            <form method="POST" th:action="@{~/:alue:id}"> 
+            <form method="POST" th:action="@{~/:alue/}"> 
                 <div>
                     <input type="text" name="otsikko" placeholder="Avauksen otsikko" />
                 </div>

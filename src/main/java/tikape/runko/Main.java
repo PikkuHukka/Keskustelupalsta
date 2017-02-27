@@ -58,12 +58,12 @@ public class Main {
         //Avaus
         
         //req.pathinfo() kertoo polun
-        get("/:alue:id", (req, res) -> {
+        get("/:alue/", (req, res) -> {
 
             HashMap map = new HashMap<>();
 //          map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("id")))));
-//          map.put("alue", avausDao.findAlue(Integer.parseInt(req.params("id"))))));
-            map.put("avaukset", avausDao.findAll());
+            map.put("avaukset", avausDao.findAlue(Integer.parseInt(req.params("alue"))));
+            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));
             return new ModelAndView(map, "avaus");
 
         }, new ThymeleafTemplateEngine());
@@ -79,11 +79,12 @@ public class Main {
             return "";
         });
         //Vastaus
-        get("/:alue/:id", (req, res) -> {
+        get("/:alue/:avaus/", (req, res) -> {
 
             HashMap map = new HashMap<>();
-            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("id"))));
-            map.put("vastaukset", vastausDao.findAlue(Integer.parseInt(req.params("id"))));
+            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));
+            map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus"))));
+            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));
             return new ModelAndView(map, "keskustelu");
 
         }, new ThymeleafTemplateEngine());
@@ -93,10 +94,10 @@ public class Main {
             String otsikko = req.queryParams("otsikko");
             String sisalto = req.queryParams("sisalto");
             String nimimerkki = req.queryParams("nimimerkki");
-            Random random = new Random();
+            ;
             Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
             avausDao.lisaaAvaus(a);
-            res.redirect("/:alue:id");
+            res.redirect("/:alue/:id/");
             return "";
         });
 
