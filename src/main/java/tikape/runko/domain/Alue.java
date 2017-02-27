@@ -12,19 +12,19 @@ import java.sql.Timestamp;
  * @author langjimi
  */
 public class Alue {
-    
+
     final private String nimi;
     final private int alue_id;
     private int lukumaara;
     private String viimeisin;
-    
-    public Alue(int id, String nimi){
-        
+
+    public Alue(int id, String nimi) {
+
         this.nimi = nimi;
         this.alue_id = id;
         this.lukumaara = 0;
         this.viimeisin = null;
-        
+
     }
 
     public int getAlue_id() {
@@ -48,21 +48,23 @@ public class Alue {
     }
 
     public void setViimeisin(String viimeisin) {
-        
-        if(viimeisin.equals("null")){
+
+        if (viimeisin.equals("null")) {
             this.viimeisin = "null";
             return;
         }
-        
+
         String lyhennetty = "";
-        
+
         for (int i = 0; i < 16; i++) {
-            lyhennetty += viimeisin.charAt(i);
+            if (viimeisin.charAt(i) == ' ') {
+                lyhennetty += ';';
+            }else{
+                lyhennetty += viimeisin.charAt(i);
+            }
         }
-        
+
         this.viimeisin = lyhennetty;
     }
 
-  
-    
 }
