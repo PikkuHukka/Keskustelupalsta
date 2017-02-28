@@ -38,7 +38,7 @@ public class AvausDao implements Dao<Avaus, Integer> {
     @Override
     public Avaus findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Opiskelija WHERE avaus_id = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE avaus_id = ?");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();

@@ -68,27 +68,32 @@ public class Main {
 
         }, new ThymeleafTemplateEngine());
         // public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) 
-        post("/:alue:id", (Request req, Response res) -> {
+        post("/:alue/", (Request req, Response res) -> {
 
             String otsikko = req.queryParams("otsikko");
             String sisalto = req.queryParams("sisalto");
             String nimimerkki = req.queryParams("nimimerkki");
             Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
             avausDao.lisaaAvaus(a);
-            res.redirect("/:alue:id");
+            res.redirect("/:alue/");
             return "";
         });
+        
+        
+        
+        
         //Vastaus
         get("/:alue/:avaus/", (req, res) -> {
-
+            System.out.println("moi");
             HashMap map = new HashMap<>();
-            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));
-            map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus"))));
-            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));
+            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));            
+            map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus"))));            
+            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));            
             return new ModelAndView(map, "keskustelu");
 
         }, new ThymeleafTemplateEngine());
-        // public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) 
+        
+        
         post("/:alue/:id", (Request req, Response res) -> {
 
             String otsikko = req.queryParams("otsikko");

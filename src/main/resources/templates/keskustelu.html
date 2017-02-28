@@ -13,24 +13,24 @@
             <li th:text="${avaus.nimimerkki}"><b>avausnimimerkki</b> 
                 <p th:text="${avaus.sisalto}">avaus</p> </li>
             <li th:each="vastaus: ${vastaukset}">
-                <b th:text="${vastaus.nimimerkki}"}">nimimerkki</b>
-                <p th:text="${vastaus.otsikko}"}">vastaus</p>
+                <p th:text="${vastaus.nimimerkki}"> nimimerkki</p>
+                <p th:text="${vastaus.sisalto}">vastaus</p>
             </li>         
         </ol>
-        <br>
+        
 
-            <p align="left">
+        
                 Viesti
-                <form method="POST" action="/:alue/:avaus">
-                    <textarea name="vastaus" rows="20" cols="70"></textarea><br>
+                <form method="POST" action="/:alue/:avaus" >
+                    <textarea name="vastaus" rows="20" cols="70"></textarea>
                         Nimimerkki           
                         <textarea name="nimimerkki" rows="1" cols="30"></textarea>
 
-                        <br><br>
-                                <input type="submit" value="lähetä">
+                        
+                        <input type="submit" value="lähetä"></input>
+                </form>
 
-                                    </form>
-                                    </p>
+                                    
 
                                     </body>
                                     </html>
