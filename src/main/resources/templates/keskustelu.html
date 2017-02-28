@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Diskuteeraus</title>
+        <title>Keskustelupalsta</title>
         <meta charset="utf-8" />
     </head>
 
@@ -10,27 +10,27 @@
         <h1><span th:text="${alue.nimi}">alue</span> --- <span th:text="${avaus.otsikko}">avaus</span> </h1>
 
         <ol>
-            <li th:text="${avaus.nimimerkki}"><b>avausnimimerkki</b> 
+            <li> 
+                <p><em th:text="${avaus.nimimerkki}">avausnimimerkki</em></p> 
                 <p th:text="${avaus.sisalto}">avaus</p> </li>
             <li th:each="vastaus: ${vastaukset}">
-                <p th:text="${vastaus.nimimerkki}"> nimimerkki</p>
+                <p><em th:text="${vastaus.nimimerkki}">nimimerkki</em></p>
                 <p th:text="${vastaus.sisalto}">vastaus</p>
             </li>         
         </ol>
+
+
+
+        <h3>Vastaa:</h3>
         
+        <form method="POST" th:action="@{~/{alue_id}/{avaus_id}/(avaus_id=${avaus.avaus_id}, alue_id=${alue.alue_id})}">
+            <p><textarea name="vastaus" rows="20" cols="70"></textarea></p>
+            <p>Nimimerkki           
+            <textarea name="nimimerkki" rows="1" cols="30"></textarea></p>
+            <input type="submit" value="lähetä"></input>
+        </form>
 
-        
-                Viesti
-                <form method="POST" action="/:alue/:avaus" >
-                    <textarea name="vastaus" rows="20" cols="70"></textarea>
-                        Nimimerkki           
-                        <textarea name="nimimerkki" rows="1" cols="30"></textarea>
 
-                        
-                        <input type="submit" value="lähetä"></input>
-                </form>
 
-                                    
-
-                                    </body>
-                                    </html>
+    </body>
+</html>

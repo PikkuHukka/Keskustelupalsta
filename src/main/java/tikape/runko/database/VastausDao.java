@@ -105,17 +105,17 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return vastaukset;
     }
     
-    public void add(Integer vastaus_id, Integer avausviittaus, String sisalto, String nimimerkki, Timestamp aikaleima) throws SQLException {
+    public void add(Integer vastaus_id, String sisalto, String nimimerkki, Timestamp aikaleima, Integer alueviittaus, Integer avausviittaus) throws SQLException {
 
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement
-        ("INSERT INTO Vastaus "
-                + "(vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima)"
-                + " VALUES (vastaus_id, avausviittaus, sisalto, nimimerkki, aikaleima)");
-
-        
-        stmt.close();
-        connection.close();
+        try (Connection connection = database.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement
+                ("INSERT INTO Vastaus "
+                        + "(vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus)"
+                        + " VALUES (vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus)");
+            
+            
+            stmt.close();
+        }
 
         
     }

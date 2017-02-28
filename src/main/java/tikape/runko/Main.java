@@ -16,6 +16,7 @@ import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.VastausDao;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Avaus;
+import tikape.runko.domain.Vastaus;
 
 public class Main {
 
@@ -93,24 +94,30 @@ public class Main {
 
         }, new ThymeleafTemplateEngine());
         
-        
-        post("/:alue/:id", (Request req, Response res) -> {
+//            public Vastaus(int vastaus_id, int avausviittaus, int alueviittaus,
+//           String sisalto, String nimimerkki, Timestamp aikaleima) {
 
-            String otsikko = req.queryParams("otsikko");
-            String sisalto = req.queryParams("sisalto");
+        post("/:alue/:avaus/", (Request req, Response res) -> {
+            String sisalto = req.queryParams("vastaus");
+            System.out.println(sisalto);
+            Integer vastaus_id = sisalto.hashCode() + random.nextInt(100);
+            System.out.println(vastaus_id);
+            Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
+            System.out.println(avausviittaus);
+            Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
+            System.out.println(alueviittaus.toString());
             String nimimerkki = req.queryParams("nimimerkki");
-            ;
-            Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
-            avausDao.lisaaAvaus(a);
-            res.redirect("/:alue/:id/");
+            System.out.println(nimimerkki);
+            Timestamp aikaleima = new Timestamp(System.currentTimeMillis());
+            System.out.println(aikaleima);
+            
+            vastausDao.add
+            (vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus);
+            
+            res.redirect("/:alue/:avaus/");
             return "";
         });
 
-        get("/opiskelijat/:id", (req, res) -> {
-            HashMap map = new HashMap<>();
-            map.put("opiskelija", opiskelijaDao.findOne(Integer.parseInt(req.params("id"))));
 
-            return new ModelAndView(map, "opiskelija");
-        }, new ThymeleafTemplateEngine());
     }
 }
