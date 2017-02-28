@@ -23,7 +23,7 @@
 
         <h3>Vastaa:</h3>
         
-        <form method="POST" th:action="@{~/{alue_id}/{avaus_id}/(avaus_id=${avaus.avaus_id}, alue_id=${alue.alue_id})}">
+        <form method="POST" th:action="@{~/vastaa(alue=${alue.alue_id},avaus=${avaus.avaus_id})}">
             <p><textarea name="vastaus" rows="20" cols="70"></textarea></p>
             <p>Nimimerkki           
             <textarea name="nimimerkki" rows="1" cols="30"></textarea></p>

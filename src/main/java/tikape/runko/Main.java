@@ -85,7 +85,7 @@ public class Main {
         
         //Vastaus
         get("/:alue/:avaus/", (req, res) -> {
-            System.out.println("moi");
+            
             HashMap map = new HashMap<>();
             map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));            
             map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus"))));            
@@ -97,7 +97,7 @@ public class Main {
 //            public Vastaus(int vastaus_id, int avausviittaus, int alueviittaus,
 //           String sisalto, String nimimerkki, Timestamp aikaleima) {
 
-        post("/:alue/:avaus/", (Request req, Response res) -> {
+        post("/:vastaa", (Request req, Response res) -> {
             String sisalto = req.queryParams("vastaus");
             System.out.println(sisalto);
             Integer vastaus_id = sisalto.hashCode() + random.nextInt(100);
@@ -108,13 +108,13 @@ public class Main {
             System.out.println(alueviittaus.toString());
             String nimimerkki = req.queryParams("nimimerkki");
             System.out.println(nimimerkki);
-            Timestamp aikaleima = new Timestamp(System.currentTimeMillis());
+            Timestamp aikaleima = new java.sql.Timestamp(System.currentTimeMillis());
             System.out.println(aikaleima);
             
             vastausDao.add
-            (vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus);
+            (vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
             
-            res.redirect("/:alue/:avaus/");
+            res.redirect("/" + alueviittaus + "/" + avausviittaus +"/");
             return "";
         });
 

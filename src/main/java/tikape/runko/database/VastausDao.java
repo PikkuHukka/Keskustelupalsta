@@ -105,16 +105,26 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return vastaukset;
     }
     
-    public void add(Integer vastaus_id, String sisalto, String nimimerkki, Timestamp aikaleima, Integer alueviittaus, Integer avausviittaus) throws SQLException {
-
-        try (Connection connection = database.getConnection()) {
+    public void add(Integer vastaus_id, String sisalto, String nimimerkki, Timestamp aikaleima, Integer avausviittaus, Integer alueviittaus) throws SQLException {
+            
+            try {
+            Connection connection = database.getConnection();
             PreparedStatement stmt = connection.prepareStatement
                 ("INSERT INTO Vastaus "
-                        + "(vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus)"
-                        + " VALUES (vastaus_id, sisalto, nimimerkki, aikaleima, alueviittaus, avausviittaus)");
+                        + "(vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus)"
+                        + " VALUES (?, ?, ?, ?, ?, ?)");
             
-            
+            stmt.setObject(1, vastaus_id);
+            stmt.setObject(2, sisalto);
+            stmt.setObject(3, nimimerkki);
+            stmt.setObject(4, aikaleima);
+            stmt.setObject(5, avausviittaus);
+            stmt.setObject(6, alueviittaus);
+            stmt.executeUpdate();
             stmt.close();
+        } catch(Exception e) {
+                System.out.println(e.getMessage());
+            
         }
 
         
