@@ -79,12 +79,13 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return vastaukset;
     }
     
-    public List<Vastaus> findAvaus(int avaus_id) throws SQLException {
+    public List<Vastaus> findAvaus(int avaus_id, int lkm) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement
-        ("SELECT * FROM Vastaus WHERE avausviittaus = ? ORDER BY aikaleima ASC");
+        ("SELECT * FROM Vastaus WHERE avausviittaus = ? ORDER BY aikaleima ASC LIMIT ?");
         stmt.setObject(1, avaus_id);
+        stmt.setObject(2, lkm - 1);
         ResultSet rs = stmt.executeQuery();
         List<Vastaus> vastaukset = new ArrayList<>();
         while (rs.next()) {

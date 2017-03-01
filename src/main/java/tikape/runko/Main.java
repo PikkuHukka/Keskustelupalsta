@@ -84,11 +84,15 @@ public class Main {
         
         
         //Vastaus
-        get("/:alue/:avaus/", (req, res) -> {
+        
+        
+        get("/:alue/:avaus/:lkm", (req, res) -> {
             
             HashMap map = new HashMap<>();
             map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));            
-            map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus"))));            
+            map.put("lkm", req.params("lkm"));            
+            map.put
+                ("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus")), Integer.parseInt(req.params("lkm"))));            
             map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));            
             return new ModelAndView(map, "keskustelu");
 
@@ -97,24 +101,35 @@ public class Main {
 //            public Vastaus(int vastaus_id, int avausviittaus, int alueviittaus,
 //           String sisalto, String nimimerkki, Timestamp aikaleima) {
 
-        post("/:vastaa", (Request req, Response res) -> {
+        post("/vastaa", (Request req, Response res) -> {
+            String lkm = req.queryParams("lkm");
+            System.out.println(lkm);
             String sisalto = req.queryParams("vastaus");
-            System.out.println(sisalto);
             Integer vastaus_id = sisalto.hashCode() + random.nextInt(100);
-            System.out.println(vastaus_id);
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
-            System.out.println(avausviittaus);
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
-            System.out.println(alueviittaus.toString());
             String nimimerkki = req.queryParams("nimimerkki");
-            System.out.println(nimimerkki);
             Timestamp aikaleima = new java.sql.Timestamp(System.currentTimeMillis());
-            System.out.println(aikaleima);
             
             vastausDao.add
             (vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
             
-            res.redirect("/" + alueviittaus + "/" + avausviittaus +"/");
+            res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
+            return "";
+        });
+        
+        post("/vaihdaLKM", (Request req, Response res) -> {
+            
+            Integer lkm = Integer.parseInt(req.queryParams("lkm"));           
+            
+            Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
+            System.out.println(avausviittaus);
+            Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
+            System.out.println(alueviittaus);
+            
+            
+            
+            res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
             return "";
         });
 

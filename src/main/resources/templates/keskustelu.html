@@ -12,9 +12,23 @@
     </head>
 
     <body>
-        <h3 class="w3-container w3-yellow"><span th:text="${alue.nimi}">alue</span> --- <span th:text="${avaus.otsikko}">avaus</span> </h3>
+        <h3 class="w3-container w3-yellow">
+            <a th:text="${alue.nimi}" th:href="@{~/{alue_id}/(alue_id=${alue.alue_id})}">alue</a> --- <span th:text="${avaus.otsikko}">avaus</span> </h3>
         <div class="w3-row">
         <div class="w3-twothird">
+            <div class="w3-container w3-padding-large">                  
+                
+        <form method="POST" th:action="@{~/vaihdaLKM(alue=${alue.alue_id},avaus=${avaus.avaus_id})}">       
+        
+            
+            Näytettävien viestien lukumäärä: 
+            <textarea name="lkm" rows="1" cols="3" th:placeholder="${lkm}"></textarea>
+            <input type="submit" value="Vaihda"></input>
+            
+        </form>
+        
+        
+        </div>
             <ol>
             <li class="w3-container w3-border w3-border-yellow w3-padding-small"> 
                 <strong th:text="${avaus.nimimerkki}">avausnimimerkki</strong> 
@@ -29,13 +43,14 @@
         <div class="w3-container w3-padding-large">
         <h5>Vastaa:</h5>
         
-        <form method="POST" th:action="@{~/vastaa(alue=${alue.alue_id},avaus=${avaus.avaus_id})}">
-            <p><textarea name="vastaus" rows="10" cols="70"></textarea></p>
+        <form method="POST" th:action="@{~/vastaa(alue=${alue.alue_id},avaus=${avaus.avaus_id},lkm=${lkm})}">
+            <p><textarea name="vastaus" rows="6" cols="70"></textarea></p>
             <p>Nimimerkki           
             <textarea name="nimimerkki" rows="1" cols="30"></textarea></p>
             <input type="submit" value="lähetä"></input>
         </form>
         </div>
+        
         </div> </div>   
 
 
