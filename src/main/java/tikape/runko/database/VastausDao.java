@@ -83,7 +83,7 @@ public class VastausDao implements Dao<Vastaus, Integer> {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement
-        ("SELECT * FROM Vastaus WHERE avausviittaus = ?");
+        ("SELECT * FROM Vastaus WHERE avausviittaus = ? ORDER BY aikaleima ASC");
         stmt.setObject(1, avaus_id);
         ResultSet rs = stmt.executeQuery();
         List<Vastaus> vastaukset = new ArrayList<>();
