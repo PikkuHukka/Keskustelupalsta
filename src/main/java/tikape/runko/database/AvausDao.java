@@ -119,7 +119,7 @@ public class AvausDao implements Dao<Avaus, Integer> {
 
     public void lisaaAvaus(Avaus avaus) throws SQLException {
 
-        String sql = "INSERT INTO Avaus(avaus_id, alueviittaus, otsikko, sisalto, nimimerkki, aikaleima) VALUES( " + avaus.getAvaus_id() + "," + avaus.getAlueviittaus() + ", '" + avaus.getOtsikko() + "', '" + avaus.getSisalto() + "', '" + avaus.getNimimerkki() + "', '" + avaus.getAikaleima() + "')";
+        String sql = "INSERT INTO Avaus(avaus_id, otsikko, sisalto, alueviittaus, aikaleima, nimimerkki) VALUES( " + avaus.getAvaus_id() + ",'" + avaus.getOtsikko() + "', '" + avaus.getSisalto() + "', " + avaus.getAlueviittaus() + ", '" + avaus.getAikaleima() + "', '" + avaus.getNimimerkki() + "')";
 
         Connection connection = database.getConnection();
         connection.setAutoCommit(false);

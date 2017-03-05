@@ -9,23 +9,73 @@
             td{text-align: left}
             th{text-align: center}
             table{border-spacing: 10px}
-
-            .alue{
-
-                outline: none;
+            nav {
+                display: table-row;
+            }
+            .flex-container {
+                display: -webkit-flex;
+                display: flex;  
+                -webkit-flex-flow: row wrap;
+                flex-flow: row wrap;
                 margin-top: 2%;
             }
-            .alue2{
-                margin-left: 20%;
+            .post{
+                margin-top: 3%;
             }
-            .uusiAlue{
-                margin-top: 3%
+            .nav1{
+                width: 16%;
+                text-align: left;
+                margin-top: 4%;
+                display: table-row-group;
+                line-height: 2;
             }
         </style>
 
     </head>
+ <body>
+        <h1 th:text="${alue.nimi}">Aihe</h1>
+        <div class="flex-container" >
+            <nav class="nav1">
+                <span><i><b>Alue: </b></i></span><span th:utext="${alue.nimi}" ></span>
+                <div class="nav1" th:each="avaus : ${avaukset}">
+                    <a th:href="@{~/{alue_id}/{avaus_id}/10(avaus_id=${avaus.avaus_id}, alue_id=${alue.alue_id})}"><span th:text="${avaus.otsikko}">otsikko</span></a>
+                </div>
+            </nav>
+            <nav class="nav1">
+                <span><i><b>Viestejä yhteensä</b></i></span>
+                <div class="nav1" th:each="avaus : ${avaukset}">
+                    <span th:text="${avaus.lukumaara}">lukumaara</span>
+                </div>
+            </nav>
+            <nav class="nav1">
+                <span><i><b>Viimeisin viesti</b></i></span>
+                <div class="nav1" th:each="avaus : ${avaukset}">
+                      <span th:text="${avaus.aikaleima}">viimeisin</span>
+                </div>
+            </nav>
+        </div>
+        <div class="post">
+            <form method="POST" th:action="@{~/avaa(alue=${alue.alue_id})}"> 
+                <div>
+                    <input type="text" name="otsikko" placeholder="Avauksen otsikko" />
+                </div>
 
-    <body>
+                <div>
+                    <input style="height:200px; width: 200px;" type="text" name="sisalto" placeholder="Avauksen sisalto" />
+                </div>
+
+                <div>
+                    <input type="text" name="nimimerkki" placeholder="Nimimerkki" />
+                </div>
+                <div>
+                    <input type="submit" value="Lisää avaus"/>
+
+
+                </div>
+            </form>
+        </div>
+    </body>
+<!--    <body>
         <h1 th:text="${alue.nimi}">Aihe</h1>
         <table style="width:40%">
             <tr>
@@ -47,25 +97,25 @@
         </div>
 
         <div class="uusiAlue">
-            <form method="POST" th:action="@{~/:alue/}"> 
+            <form method="POST" th:action="@{~/avaa(alue=${alue.alue_id})}"> 
                 <div>
                     <input type="text" name="otsikko" placeholder="Avauksen otsikko" />
                 </div>
-                
+
                 <div>
                     <input style="height:200px; width: 200px;" type="text" name="sisalto" placeholder="Avauksen sisalto" />
-            </div>
-                
-                 <div>
+                </div>
+
+                <div>
                     <input type="text" name="nimimerkki" placeholder="Nimimerkki" />
                 </div>
-            <div>
-                <input type="submit" value="Lisää avaus"/>
+                <div>
+                    <input type="submit" value="Lisää avaus"/>
 
 
-            </div>
-        </form>
-    </div>
+                </div>
+            </form>
+        </div>
 
-</body>
+    </body>-->
 </html>

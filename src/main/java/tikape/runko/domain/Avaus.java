@@ -20,6 +20,7 @@ public class Avaus {
     private String sisalto;
     private String nimimerkki;
     private Timestamp aikaleima;
+    private int lukumaara;
 
     public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, Timestamp aikaleima) {
         this.avaus_id = avaus_id;
@@ -28,6 +29,7 @@ public class Avaus {
         this.sisalto = sisalto;
         this.otsikko = otsikko;
         this.aikaleima = aikaleima;
+        this.lukumaara = 1;
     }
 
     public int getAvaus_id() {
@@ -35,7 +37,7 @@ public class Avaus {
     }
 
     public int getAlueviittaus() {
-        return this.avaus_id;
+        return this.alueviittaus;
     }
 
     public String getOtsikko() {
@@ -52,6 +54,14 @@ public class Avaus {
 
     public Timestamp getAikaleima() {
         return this.aikaleima;
+    }
+
+    public int getLukumaara() {
+        return lukumaara;
+    }
+
+    public void setLukumaara(int lukumaara) {
+        this.lukumaara = lukumaara;
     }
     
 

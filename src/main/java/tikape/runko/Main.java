@@ -47,6 +47,9 @@ public class Main {
 
         post("/", (req, res) -> {
             String nimi = req.queryParams("nimi");
+            
+            nimi = ekaKirjainIsoksi(nimi);
+            
             Alue a = new Alue(Math.abs(nimi.hashCode() + random.nextInt(100)), nimi);
             
             if (!a.getNimi().equals("")) {
@@ -69,14 +72,16 @@ public class Main {
 
         }, new ThymeleafTemplateEngine());
         // public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, String aikaleima) 
-        post("/:alue/", (Request req, Response res) -> {
+        post("/avaa", (Request req, Response res) -> {
+
+            Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
 
             String otsikko = req.queryParams("otsikko");
             String sisalto = req.queryParams("sisalto");
             String nimimerkki = req.queryParams("nimimerkki");
-            Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), 5, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
+            Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), alueviittaus, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
             avausDao.lisaaAvaus(a);
-            res.redirect("/:alue/");
+            res.redirect("/" + alueviittaus +"/");
             return "";
         });
         
@@ -134,5 +139,14 @@ public class Main {
         });
 
 
+    }
+    
+    public static String ekaKirjainIsoksi(String s){
+        String eka = s.charAt(0)+"";
+        eka = eka.toUpperCase();
+        for (int i = 1; i < s.length(); i++) {
+            eka+=s.charAt(i);
+        }
+        return eka;
     }
 }

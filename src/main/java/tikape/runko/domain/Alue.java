@@ -58,7 +58,7 @@ public class Alue {
 
         for (int i = 0; i < 16; i++) {
             if (viimeisin.charAt(i) == ' ') {
-                lyhennetty += ';';
+                lyhennetty += ' ';
             }else{
                 lyhennetty += viimeisin.charAt(i);
             }
