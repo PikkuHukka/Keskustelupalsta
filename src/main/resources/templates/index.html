@@ -49,7 +49,7 @@
             <nav class="nav1">
                 <span><i><b>Viimeisin viesti</b></i></span>
                 <div class="nav1" th:each="alue : ${alueet}">
-                    <span th:text="${alue.viimeisin}">viimeisin</span>
+                    <span th:text="${alue.viimeisin != 'null'}? ${alue.viimeisin} : '-'">viimeisin</span>
                 </div>
             </nav>
         </div>
