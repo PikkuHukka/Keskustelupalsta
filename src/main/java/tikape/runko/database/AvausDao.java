@@ -52,7 +52,7 @@ public class AvausDao implements Dao<Avaus, Integer> {
         String otsikko = rs.getString("otsikko");
         String sisalto = rs.getString("sisalto");
         String nimimerkki = rs.getString("nimimerkki");
-       Timestamp aikaleima = rs.getTimestamp("aikaleima");
+        Timestamp aikaleima = rs.getTimestamp("aikaleima");
 
 //(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, Calendar aikaleima
         Avaus o = new Avaus(avaus_id, alueviittaus, otsikko, sisalto, nimimerkki, aikaleima);
@@ -68,7 +68,7 @@ public class AvausDao implements Dao<Avaus, Integer> {
     public List<Avaus> findAll() throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus ORDER BY otsikko");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus ORDER BY aikaleima");
 
         ResultSet rs = stmt.executeQuery();
         List<Avaus> avaukset = new ArrayList<>();
@@ -90,11 +90,11 @@ public class AvausDao implements Dao<Avaus, Integer> {
 
         return avaukset;
     }
-    
+
     public List<Avaus> findAlue(int alue_id) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = ? ORDER BY otsikko");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = ? ORDER BY aikaleima ASC");
         stmt.setObject(1, alue_id);
         ResultSet rs = stmt.executeQuery();
         List<Avaus> avaukset = new ArrayList<>();
@@ -128,6 +128,46 @@ public class AvausDao implements Dao<Avaus, Integer> {
         stmt.close();
         connection.commit();
         connection.close();
+    }
+
+    public int viestienLukumaara(int avaus_id) throws SQLException {
+
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT avaus_id, COUNT(vastaus.avausviittaus) AS lukumaara FROM Avaus, Vastaus WHERE avausviittaus = avaus_id AND avausviittaus = " + avaus_id);
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return 0;
+        }
+
+        int lukumaara = rs.getInt("lukumaara");
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return lukumaara;
+    }
+
+    public String viimeisinViesti(int avaus_id) throws SQLException {
+
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vastaus WHERE avausviittaus = " + avaus_id + " ORDER BY aikaleima ASC LIMIT 1");
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return null;
+        }
+
+        String aikaleima = rs.getTimestamp("aikaleima") + "";
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return aikaleima;
     }
 
     @Override
