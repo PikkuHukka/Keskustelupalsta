@@ -11,6 +11,7 @@ public class Database {
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
+        init();
 
     }
 
@@ -75,9 +76,9 @@ public class Database {
         lista.add("DROP TABLE Alue");
         lista.add("DROP TABLE Avaus");
         lista.add("DROP TABLE Vastaus"); // heroku käyttää SERIAL-avainsanaa uuden tunnuksen automaattiseen luomiseen
-        lista.add("CREATE TABLE Alue (alue_id SERIAL PRIMARY KEY, aihe varchar(50));");
+        lista.add("CREATE TABLE Alue (alue_id SERIAL PRIMARY KEY,aihe varchar(50));");
         lista.add("CREATE TABLE Avaus (avaus_id SERIAL PRIMARY KEY,otsikko varchar(50),sisalto varchar(500),alueviittaus integer, aikaleima DATETIME, nimimerkki varchar(50), FOREIGN KEY(alueviittaus) REFERENCES Alue(alue_id));");
-        lista.add("CREATE TABLE Vastaus (vastaus_id SERIAL PRIMARY KEY, sisalto varchar(500), nimimerkki varchar(50), aikaleima DATETIME,avausviittaus integer, alueviittaus integer, FOREIGN KEY(avausviittaus) REFERENCES Avaus(avaus_id), FOREIGN KEY(alueviittaus) REFERENCES Alue(alue_id));");
+        lista.add("CREATE TABLE Vastaus (vastaus_id SERIAL PRIMARY KEY,sisalto varchar(500), nimimerkki varchar(50), aikaleima DATETIME,avausviittaus integer, alueviittaus integer, FOREIGN KEY(avausviittaus) REFERENCES Avaus(avaus_id), FOREIGN KEY(alueviittaus) REFERENCES Alue(alue_id));");
 
         return lista;
     }

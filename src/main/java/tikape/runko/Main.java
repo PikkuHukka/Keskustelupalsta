@@ -34,7 +34,7 @@ public class Main {
         }
 
         Database database = new Database(jdbcOsoite);
-        database.init();
+        
 
         OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
         VastausDao vastausDao = new VastausDao(database);
