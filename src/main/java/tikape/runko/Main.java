@@ -21,12 +21,19 @@ import tikape.runko.domain.Vastaus;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        
+
         if (System.getenv("PORT") != null) {
             port(Integer.valueOf(System.getenv("PORT")));
         }
-        
-        Database database = new Database("jdbc:sqlite:keskustelupalsta.db");
+
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:keskustelupalsta.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        }
+
+        Database database = new Database(jdbcOsoite);
         database.init();
 
         OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
@@ -74,7 +81,7 @@ public class Main {
             List<Avaus> avaukset = avausDao.findAlue(Integer.parseInt(req.params("alue")));
 
             for (Avaus avaus : avaukset) {
-                avaus.setLukumaara(avausDao.viestienLukumaara(avaus.getAvaus_id())+1);
+                avaus.setLukumaara(avausDao.viestienLukumaara(avaus.getAvaus_id()) + 1);
                 avaus.setViimeisin(avausDao.viimeisinViesti(avaus.getAvaus_id()), avaus.getAikaleima());
             }
 
@@ -114,14 +121,14 @@ public class Main {
 //           String sisalto, String nimimerkki, Timestamp aikaleima) {
         post("/vastaa", (Request req, Response res) -> {
             String lkm = req.queryParams("lkm");
-  
+
             String sisalto = req.queryParams("vastaus");
             Integer vastaus_id = sisalto.hashCode() + random.nextInt(100);
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
             String nimimerkki = req.queryParams("nimimerkki");
             Timestamp aikaleima = new java.sql.Timestamp(System.currentTimeMillis());
-   
+
             vastausDao.add(vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
 
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
@@ -135,7 +142,6 @@ public class Main {
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
 
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
-   
 
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
             return "";
