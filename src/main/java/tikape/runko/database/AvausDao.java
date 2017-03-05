@@ -118,16 +118,33 @@ public class AvausDao implements Dao<Avaus, Integer> {
     }
 
     public void lisaaAvaus(Avaus avaus) throws SQLException {
-
-        String sql = "INSERT INTO Avaus(avaus_id, otsikko, sisalto, alueviittaus, aikaleima, nimimerkki) VALUES( " + avaus.getAvaus_id() + ",'" + avaus.getOtsikko() + "', '" + avaus.getSisalto() + "', " + avaus.getAlueviittaus() + ", '" + avaus.getAikaleima() + "', '" + avaus.getNimimerkki() + "')";
-
-        Connection connection = database.getConnection();
-        connection.setAutoCommit(false);
-        Statement stmt = connection.createStatement();
-        stmt.executeUpdate(sql);
-        stmt.close();
-        connection.commit();
-        connection.close();
+        int avaus_id = avaus.getAvaus_id();
+        String otsikko = avaus.getOtsikko();
+        String sisalto = avaus.getSisalto();
+        int alueviittaus = avaus.getAlueviittaus();
+        Timestamp aikaleima = avaus.getAikaleima();
+        String nimimerkki = avaus.getNimimerkki();
+        
+        try (Connection connection = database.getConnection()) {
+            connection.setAutoCommit(false);
+            
+            PreparedStatement stmt = connection.prepareStatement
+                                ("INSERT INTO Avaus(avaus_id, otsikko, sisalto, alueviittaus, aikaleima, nimimerkki)"
+                                        + " VALUES(?,?,?,?,?,?)");
+            
+            
+            stmt.setObject(1, avaus_id);
+            stmt.setObject(2, otsikko);
+            stmt.setObject(3, sisalto);
+            stmt.setObject(4, alueviittaus);
+            stmt.setObject(5, aikaleima);
+            stmt.setObject(6, nimimerkki);
+            stmt.executeUpdate();
+            stmt.close();
+            
+            
+            connection.commit();
+        } catch(Exception e) {}
     }
 
     public int viestienLukumaara(int avaus_id) throws SQLException {
