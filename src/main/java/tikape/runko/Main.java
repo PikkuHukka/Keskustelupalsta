@@ -36,7 +36,7 @@ public class Main {
             List<Alue> alueet = alueDao.findAll();
 
             for (Alue alue : alueet) {
-                alue.setLukumaara(alueDao.viestienLukumaara(alue.getAlue_id()) + alueDao.onkoAvausta(alue.getAlue_id()));
+                alue.setLukumaara(alueDao.viestienLukumaara(alue.getAlue_id()) + alueDao.avaustenLukumaara(alue.getAlue_id()));
                 alue.setViimeisin(alueDao.viimeisinViesti(alue.getAlue_id()));
             }
 
@@ -47,26 +47,33 @@ public class Main {
 
         post("/", (req, res) -> {
             String nimi = req.queryParams("nimi");
-            
+
             nimi = ekaKirjainIsoksi(nimi);
-            
+
             Alue a = new Alue(Math.abs(nimi.hashCode() + random.nextInt(100)), nimi);
-            
+
             if (!a.getNimi().equals("")) {
                 alueDao.lisaaAlue(a);
             }
-            
+
             res.redirect("/");
             return "";
         });
         //Avaus
-        
+
         //req.pathinfo() kertoo polun
         get("/:alue/", (req, res) -> {
 
             HashMap map = new HashMap<>();
 //          map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("id")))));
-            map.put("avaukset", avausDao.findAlue(Integer.parseInt(req.params("alue"))));
+            List<Avaus> avaukset = avausDao.findAlue(Integer.parseInt(req.params("alue")));
+
+            for (Avaus avaus : avaukset) {
+                avaus.setLukumaara(avausDao.viestienLukumaara(avaus.getAvaus_id())+1);
+                avaus.setViimeisin(avausDao.viimeisinViesti(avaus.getAvaus_id()), avaus.getAikaleima());
+            }
+
+            map.put("avaukset", avaukset);//avausDao.findAlue(Integer.parseInt(req.params("alue"))));
             map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));
             return new ModelAndView(map, "avaus");
 
@@ -77,35 +84,29 @@ public class Main {
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
 
             String otsikko = req.queryParams("otsikko");
+            otsikko = ekaKirjainIsoksi(otsikko);
             String sisalto = req.queryParams("sisalto");
             String nimimerkki = req.queryParams("nimimerkki");
             Avaus a = new Avaus(Math.abs(otsikko.hashCode() + random.nextInt(100)), alueviittaus, otsikko, sisalto, nimimerkki, new Timestamp(System.currentTimeMillis()));
             avausDao.lisaaAvaus(a);
-            res.redirect("/" + alueviittaus +"/");
+            res.redirect("/" + alueviittaus + "/");
             return "";
         });
-        
-        
-        
-        
+
         //Vastaus
-        
-        
         get("/:alue/:avaus/:lkm", (req, res) -> {
-            
+
             HashMap map = new HashMap<>();
-            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));            
-            map.put("lkm", req.params("lkm"));            
-            map.put
-                ("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus")), Integer.parseInt(req.params("lkm"))));            
-            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));            
+            map.put("avaus", avausDao.findOne(Integer.parseInt(req.params("avaus"))));
+            map.put("lkm", req.params("lkm"));
+            map.put("vastaukset", vastausDao.findAvaus(Integer.parseInt(req.params("avaus")), Integer.parseInt(req.params("lkm"))));
+            map.put("alue", alueDao.findOne(Integer.parseInt(req.params("alue"))));
             return new ModelAndView(map, "keskustelu");
 
         }, new ThymeleafTemplateEngine());
-        
+
 //            public Vastaus(int vastaus_id, int avausviittaus, int alueviittaus,
 //           String sisalto, String nimimerkki, Timestamp aikaleima) {
-
         post("/vastaa", (Request req, Response res) -> {
             String lkm = req.queryParams("lkm");
             System.out.println(lkm);
@@ -115,37 +116,33 @@ public class Main {
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
             String nimimerkki = req.queryParams("nimimerkki");
             Timestamp aikaleima = new java.sql.Timestamp(System.currentTimeMillis());
-            
-            vastausDao.add
-            (vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
-            
+
+            vastausDao.add(vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
+
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
             return "";
         });
-        
+
         post("/vaihdaLKM", (Request req, Response res) -> {
-            
-            Integer lkm = Integer.parseInt(req.queryParams("lkm"));           
-            
+
+            Integer lkm = Integer.parseInt(req.queryParams("lkm"));
+
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
             System.out.println(avausviittaus);
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
             System.out.println(alueviittaus);
-            
-            
-            
+
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
             return "";
         });
 
-
     }
-    
-    public static String ekaKirjainIsoksi(String s){
-        String eka = s.charAt(0)+"";
+
+    public static String ekaKirjainIsoksi(String s) {
+        String eka = s.charAt(0) + "";
         eka = eka.toUpperCase();
         for (int i = 1; i < s.length(); i++) {
-            eka+=s.charAt(i);
+            eka += s.charAt(i);
         }
         return eka;
     }

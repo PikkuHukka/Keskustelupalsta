@@ -49,7 +49,7 @@ public class Alue {
 
     public void setViimeisin(String viimeisin) {
 
-        if (viimeisin.equals("null")) {
+        if (viimeisin == null) {
             this.viimeisin = "null";
             return;
         }

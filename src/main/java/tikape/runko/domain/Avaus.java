@@ -21,6 +21,7 @@ public class Avaus {
     private String nimimerkki;
     private Timestamp aikaleima;
     private int lukumaara;
+    private String viimeisin;
 
     public Avaus(int avaus_id, int alueviittaus, String otsikko, String sisalto, String nimimerkki, Timestamp aikaleima) {
         this.avaus_id = avaus_id;
@@ -30,6 +31,7 @@ public class Avaus {
         this.otsikko = otsikko;
         this.aikaleima = aikaleima;
         this.lukumaara = 1;
+        this.viimeisin = aikaleima.toString();
     }
 
     public int getAvaus_id() {
@@ -63,6 +65,39 @@ public class Avaus {
     public void setLukumaara(int lukumaara) {
         this.lukumaara = lukumaara;
     }
-    
+
+    public String getViimeisin() {
+        return viimeisin;
+    }
+
+    public void setViimeisin(String viimeisin, Timestamp aikaleima) {
+
+        if (viimeisin == null) {
+            String a = aikaleima.toString();
+            String lyhennetty = "";
+
+            for (int i = 0; i < 16; i++) {
+                if (a.charAt(i) == ' ') {
+                    lyhennetty += ' ';
+                } else {
+                    lyhennetty += a.charAt(i);
+                }
+            }
+            this.viimeisin = lyhennetty;
+            return;
+        }
+
+        String lyhennetty = "";
+
+        for (int i = 0; i < 16; i++) {
+            if (viimeisin.charAt(i) == ' ') {
+                lyhennetty += ' ';
+            } else {
+                lyhennetty += viimeisin.charAt(i);
+            }
+        }
+
+        this.viimeisin = lyhennetty;
+    }
 
 }

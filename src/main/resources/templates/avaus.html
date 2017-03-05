@@ -36,7 +36,8 @@
         <h1 th:text="${alue.nimi}">Aihe</h1>
         <div class="flex-container" >
             <nav class="nav1">
-                <span><i><b>Alue: </b></i></span><span th:utext="${alue.nimi}" ></span>
+                
+                <a href = "/"><span><i><b>Alue</b></i></span></a><span>: </span><strong th:utext="${alue.nimi}" ></strong>
                 <div class="nav1" th:each="avaus : ${avaukset}">
                     <a th:href="@{~/{alue_id}/{avaus_id}/10(avaus_id=${avaus.avaus_id}, alue_id=${alue.alue_id})}"><span th:text="${avaus.otsikko}">otsikko</span></a>
                 </div>
@@ -50,7 +51,7 @@
             <nav class="nav1">
                 <span><i><b>Viimeisin viesti</b></i></span>
                 <div class="nav1" th:each="avaus : ${avaukset}">
-                      <span th:text="${avaus.aikaleima}">viimeisin</span>
+                      <span th:text="${avaus.viimeisin}">viimeisin</span>
                 </div>
             </nav>
         </div>
@@ -61,7 +62,7 @@
                 </div>
 
                 <div>
-                    <input style="height:200px; width: 200px;" type="text" name="sisalto" placeholder="Avauksen sisalto" />
+                    <input style="height:200px; width: 400px;" type="text" name="sisalto" placeholder="Avauksen sisalto" />
                 </div>
 
                 <div>

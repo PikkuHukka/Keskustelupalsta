@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.Avaus;
 import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.Vastaus;
 
@@ -89,21 +91,28 @@ public class AlueDao implements Dao<Alue, Integer> {
     public String viimeisinViesti(int alue_id) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vastaus WHERE alueviittaus = " + alue_id + " ORDER BY aikaleima DESC LIMIT 1");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = " + alue_id);
 
         ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
-            return avauksenLeima(alue_id) + "";
-        }
+        List<Timestamp> avaukset = new ArrayList<>();
+        while (rs.next()) {
 
-        String aikaleima = rs.getTimestamp("aikaleima") + "";
+            Timestamp aikaleima = rs.getTimestamp("aikaleima");
+
+            avaukset.add(aikaleima);
+        }
+        
+        if(avaukset.size() == 0){
+            return null;
+        }
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return aikaleima;
+        Collections.sort(avaukset);
+        Collections.reverse(avaukset);
+        return avaukset.get(0).toString();
     }
 
     public String avauksenLeima(int alue_id) throws SQLException {
@@ -151,12 +160,24 @@ public class AlueDao implements Dao<Alue, Integer> {
         connection.close();
     }
 
-    public int onkoAvausta(int alue_id) throws SQLException {
+    public int avaustenLukumaara(int alue_id) throws SQLException {
 
-        if (avauksenLeima(alue_id) == null) {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT alue_id, COUNT(avaus.alueviittaus) AS lukumaara FROM Alue, Avaus WHERE alueviittaus = alue_id AND alueviittaus = " + alue_id);
+
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
             return 0;
         }
-        return 1;
+
+        int lukumaara = rs.getInt("lukumaara");
+
+        rs.close();
+        stmt.close();
+        connection.close();
+
+        return lukumaara;
     }
 
 }
