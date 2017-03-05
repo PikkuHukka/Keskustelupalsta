@@ -12,7 +12,6 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AlueDao;
 import tikape.runko.database.AvausDao;
 import tikape.runko.database.Database;
-import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.database.VastausDao;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Avaus;
@@ -36,7 +35,7 @@ public class Main {
         Database database = new Database(jdbcOsoite);
         database.init();
 
-        OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);
+        
         VastausDao vastausDao = new VastausDao(database);
         AlueDao alueDao = new AlueDao(database);
         AvausDao avausDao = new AvausDao(database);

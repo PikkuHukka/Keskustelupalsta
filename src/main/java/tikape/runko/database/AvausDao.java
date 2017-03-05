@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Avaus;
-import tikape.runko.domain.Opiskelija;
 
 /**
  *

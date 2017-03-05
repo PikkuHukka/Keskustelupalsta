@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Avaus;
-import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.Vastaus;
 
 public class AlueDao implements Dao<Alue, Integer> {
