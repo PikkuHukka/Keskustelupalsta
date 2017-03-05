@@ -49,7 +49,7 @@ public class Avaus {
     }
 
     public String getSisalto() {
-        return this.otsikko;
+        return this.sisalto;
     }
 
     public Timestamp getAikaleima() {
