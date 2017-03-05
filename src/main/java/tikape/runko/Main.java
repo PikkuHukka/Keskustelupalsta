@@ -109,14 +109,14 @@ public class Main {
 //           String sisalto, String nimimerkki, Timestamp aikaleima) {
         post("/vastaa", (Request req, Response res) -> {
             String lkm = req.queryParams("lkm");
-            System.out.println(lkm);
+  
             String sisalto = req.queryParams("vastaus");
             Integer vastaus_id = sisalto.hashCode() + random.nextInt(100);
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
             String nimimerkki = req.queryParams("nimimerkki");
             Timestamp aikaleima = new java.sql.Timestamp(System.currentTimeMillis());
-
+   
             vastausDao.add(vastaus_id, sisalto, nimimerkki, aikaleima, avausviittaus, alueviittaus);
 
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
@@ -128,9 +128,9 @@ public class Main {
             Integer lkm = Integer.parseInt(req.queryParams("lkm"));
 
             Integer avausviittaus = Integer.parseInt(req.queryParams("avaus"));
-            System.out.println(avausviittaus);
+
             Integer alueviittaus = Integer.parseInt(req.queryParams("alue"));
-            System.out.println(alueviittaus);
+   
 
             res.redirect("/" + alueviittaus + "/" + avausviittaus + "/" + lkm);
             return "";

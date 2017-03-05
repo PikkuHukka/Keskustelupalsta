@@ -6,7 +6,6 @@
 package tikape.runko.domain;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 /**
  *

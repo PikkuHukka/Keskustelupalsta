@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Avaus;
@@ -94,8 +95,8 @@ public class AvausDao implements Dao<Avaus, Integer> {
     public List<Avaus> findAlue(int alue_id) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = ? ORDER BY aikaleima ASC");
-        stmt.setObject(1, alue_id);
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Avaus WHERE alueviittaus = " + alue_id + " ORDER BY aikaleima ASC");
+//        stmt.setObject(1, alue_id);
         ResultSet rs = stmt.executeQuery();
         List<Avaus> avaukset = new ArrayList<>();
         while (rs.next()) {
@@ -113,7 +114,7 @@ public class AvausDao implements Dao<Avaus, Integer> {
         rs.close();
         stmt.close();
         connection.close();
-
+        
         return avaukset;
     }
 
