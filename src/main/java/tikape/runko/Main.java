@@ -33,7 +33,7 @@ public class Main {
         }
 
         Database database = new Database(jdbcOsoite);
-        database.init();
+        
 
         
         VastausDao vastausDao = new VastausDao(database);
